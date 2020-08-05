@@ -47,9 +47,10 @@ def initDriver():
 
     
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
+    #options.add_argument("--headless")
+    options.add_argument('----start-maximized')
+
     options.add_argument('window-size=1920x1080')
-    options.add_argument("--start-maximized")
     #Driver location
     driver = webdriver.Chrome(os.path.join(root,'chromedriver.exe'), options=options)
     #Driver state and preferences

@@ -36,7 +36,7 @@ class loadData():
         raw = raw.dropna(subset=[self.url])
         raw[self.Id] = [str(uuid.uuid4()) for _ in range(len(raw.index))]
         urls = (raw[[self.Id,self.url]].values.tolist())
-        urls = urls[:5]
+        urls = urls[:40]
         return urls
 
 

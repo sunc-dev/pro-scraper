@@ -25,7 +25,9 @@ try:
     from feats import Feat as ft
     from interests import Interest as it
     from actions import getAnchors
-
+    from imgs import get_image
+    
+    
 except Exception as e:
     print("Some Modules are Missing {}".format(e))
 
@@ -84,27 +86,38 @@ class Profile(object):
         Profiles = []
         
         for url in urls:
-            try:
-                d.get(url[1])
-                anchors.showSections(d)
-                self.Id = url[0]
-                self.persons = pr.get_profileCard(pr, url, d, wait)
-                self.abouts = ab.get_about(ab, url, d, wait)
-                self.jobs = jb.get_jobs(jb, url, d, wait)
-                self.schools = sc.get_school(sc,url,d,wait)
-                self.certs = cr.get_cert(cr, url, d, wait)
-                self.volunteers = vr.get_volunteer(vr, url, d, wait)
-                self.skills = sk.get_skill(sk, url, d, wait)
-                self.refs = rf.get_ref(rf, url, d, wait)
-                self.feats= ft.get_feat(ft,url,d,wait)
-                self.interests = it.get_interest(it,url,d,wait)
-                 
-            except (TimeoutException):
-                print("Error in profile")
+            for attempt in range(10):
+                
+                try:
+                    d.get(url[1])
+                    anchors.showSections(d)
+                    self.Id = url[0]
+                    self.persons = pr.get_profileCard(pr, url, d, wait)
+                    self.abouts = ab.get_about(ab, url, d, wait)
+                    self.jobs = jb.get_jobs(jb, url, d, wait)
+                    self.schools = sc.get_school(sc,url,d,wait)
+                    self.certs = cr.get_cert(cr, url, d, wait)
+                    self.volunteers = vr.get_volunteer(vr, url, d, wait)
+                    self.skills = sk.get_skill(sk, url, d, wait)
+                    self.refs = rf.get_ref(rf, url, d, wait)
+                    self.feats= ft.get_feat(ft,url,d,wait)
+                    self.interests = it.get_interest(it,url,d,wait)
+                    
+                except TimeoutException:
+                    print("Error in instance.")
+                
+                else:
+                    break
             
+            else:
+                print("Fail")   
+                
             profile = Profile.get_profile(self)
             Profiles.append(profile)
-            
+      
+         
+      
+        
         return Profiles,profile,urls
                 
             
@@ -119,4 +132,8 @@ if __name__ == '__main__':
     with open('data.txt', 'w') as outJson:
         json.dump(dataJson, outJson)
 
-print(Profiles)
+    get_image()
+
+
+    
+    
